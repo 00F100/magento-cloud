@@ -34,7 +34,7 @@ show_help() {
     printf "\n    -b,  --public-key        Public key to access Magento Cloud";
     printf "\n    -i,  --private-key       Private key to access Magento Cloud";
     printf "\n    -v,  --version           Print version";
-    printf "\n    -vv, --version-small     Print only number of version";
+    printf "\n    -vv, --version-small     Print only number of version\n\n";
 }
 
 #####################################################
