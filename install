@@ -1,16 +1,17 @@
 #!/usr/bin/env bash
 
 SAVE_DIR="/usr/local/bin"
+BIN_DIR="/usr/local/bin"
 
 mkdir "$SAVE_DIR/mcp";
 curl https://raw.githubusercontent.com/00F100/magento-cloud/master/magento-create-project -o "$SAVE_DIR/magento-create-project";
-curl https://raw.githubusercontent.com/00F100/magento-cloud/master/mcp/build -o "$SAVE_DIR/mcp/build";
-curl https://raw.githubusercontent.com/00F100/magento-cloud/master/mcp/clone -o "$SAVE_DIR/mcp/clone";
-curl https://raw.githubusercontent.com/00F100/magento-cloud/master/mcp/deploy -o "$SAVE_DIR/mcp/deploy";
-curl https://raw.githubusercontent.com/00F100/magento-cloud/master/mcp/docker-env-check -o "$SAVE_DIR/mcp/docker-env-check";
-curl https://raw.githubusercontent.com/00F100/magento-cloud/master/mcp/format -o "$SAVE_DIR/mcp/format";
-curl https://raw.githubusercontent.com/00F100/magento-cloud/master/mcp/helpers -o "$SAVE_DIR/mcp/helpers";
-curl https://raw.githubusercontent.com/00F100/magento-cloud/master/mcp/inputs -o "$SAVE_DIR/mcp/inputs";
+curl https://raw.githubusercontent.com/00F100/magento-cloud/master/mcp/build -o "$BIN_DIR/mcp/build";
+curl https://raw.githubusercontent.com/00F100/magento-cloud/master/mcp/clone -o "$BIN_DIR/mcp/clone";
+curl https://raw.githubusercontent.com/00F100/magento-cloud/master/mcp/deploy -o "$BIN_DIR/mcp/deploy";
+curl https://raw.githubusercontent.com/00F100/magento-cloud/master/mcp/docker-env-check -o "$BIN_DIR/mcp/docker-env-check";
+curl https://raw.githubusercontent.com/00F100/magento-cloud/master/mcp/format -o "$BIN_DIR/mcp/format";
+curl https://raw.githubusercontent.com/00F100/magento-cloud/master/mcp/helpers -o "$BIN_DIR/mcp/helpers";
+curl https://raw.githubusercontent.com/00F100/magento-cloud/master/mcp/inputs -o "$BIN_DIR/mcp/inputs";
 chmod +x "$SAVE_DIR/magento-create-project";
 
 magento-create-project --help

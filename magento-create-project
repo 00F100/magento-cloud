@@ -7,40 +7,40 @@ VERSION="1.0.0"
 #                      HELPERS                      #
 #                                                   #
 #####################################################
-source mcp/format
-source mcp/helpers
+source /usr/local/bin/mcp/format
+source /usr/local/bin/mcp/helpers
 
 #####################################################
 #                                                   #
 #                 SYSTEM VALIDATION                 #
 #                                                   #
 #####################################################
-source mcp/docker-env-check;
+source /usr/local/bin/mcp/docker-env-check;
 
 #####################################################
 #                                                   #
 #                  INPUTS CONFIGS                   #
 #                                                   #
 #####################################################
-source mcp/inputs
+source /usr/local/bin/mcp/inputs
 
 #####################################################
 #                                                   #
 #                   CLONING CLOUD                   #
 #                                                   #
 #####################################################
-source mcp/clone
+source /usr/local/bin/mcp/clone
 
 #####################################################
 #                                                   #
 #                     BUILDING                      #
 #                                                   #
 #####################################################
-source mcp/build
+source /usr/local/bin/mcp/build
 
 #####################################################
 #                                                   #
 #                     DEPLOYING                     #
 #                                                   #
 #####################################################
-source mcp/deploy
+source /usr/local/bin/mcp/deploy
