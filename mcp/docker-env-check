@@ -1,0 +1,53 @@
+#!/usr/bin/env bash
+
+#####################################################
+#                                                   #
+#                 SYSTEM VALIDATION                 #
+#                                                   #
+#####################################################
+
+#####################################################
+#                 vm.max_map_count                  #
+#####################################################
+MAX_MAP_COUNT_VALUE=$(sysctl -n vm.max_map_count);
+MAX_MAP_COUNT_LIMIT=262144;
+ERROR_CHECK=0
+
+if [[ "$MAX_MAP_COUNT_VALUE" -lt "$MAX_MAP_COUNT_LIMIT" ]]; then
+   printf "\n${RED}[ERROR]${NC} vm.max_map_count ";
+   printf "\n${UNI}Should be at least ${BI}${MAX_MAP_COUNT_LIMIT}${BE}${UNE}.\n${UNI}Execute the following command (Linux users):${UNE}";
+   printf "\n\n sysctl -w vm.max_map_count=262144 \n"
+   ERROR_CHECK=1
+fi
+
+#####################################################
+#                      docker                       #
+#####################################################
+if ! [ -x "$(command -v docker)" ]; then
+  printf "\n${RED}[ERROR]${NC} docker is not installed.";
+  printf "\n${UNI}Check installation instructions on:${UNE}\n${UNI}https://docs.docker.com/install${UNE}\n";
+  ERROR_CHECK=1
+fi
+
+#####################################################
+#                  docker-compose                   #
+#####################################################
+if ! [ -x "$(command -v docker-compose)" ]; then
+  printf "\n${RED}[ERROR]${NC} docker-compose is not installed.";
+  printf "\n${UNI}Check installation instructions on:${UNE}\n${UNI}https://docs.docker.com/compose/install${UNE}\n";
+  ERROR_CHECK=1
+fi
+
+#####################################################
+#                    docker-sync                    #
+#####################################################
+if ! [ -x "$(command -v docker-sync)" ]; then
+  printf "\n${RED}[ERROR]${NC} docker-sync is not installed.";
+  printf "\n${UNI}Check installation instructions on:${UNE}\n${UNI}https://docker-sync.readthedocs.io/en/latest/getting-started/installation.html${UNE}\n";
+  ERROR_CHECK=1
+fi
+
+if [ "$ERROR_CHECK" == "1" ]; then
+  printf "\n"
+  exit;
+fi

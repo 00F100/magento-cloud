@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+RED='\033[0;31m';
+NC='\033[0m';
+UNI='\e[4m';
+UNE='\e[0m';
+BI='\e[1m';
+BE='\e[0m';

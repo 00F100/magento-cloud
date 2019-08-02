@@ -1,0 +1,66 @@
+#!/usr/bin/env bash
+
+#####################################################
+#                                                   #
+#                      HELPERS                      #
+#                                                   #
+#####################################################
+
+q() {
+    local ANSWER=${2};
+    [[ -n ${ANSWER} ]] && read -p "${1} [${ANSWER}]: " VALUE;
+    [[ -z ${ANSWER} ]] && read -p "${1}: " VALUE;
+
+    [[ -n "$VALUE" ]] && ANSWER=$VALUE;
+    echo $ANSWER;
+}
+
+show_help() {
+    printf "\n  Usage:";
+    printf "\n    magento-create-project [--name NAME] [--path PATH] [--magento-version VERSION] [--host HOST] [--admin-user USER] [--admin-password PASSWORD] [--public-key KEY] [--private-key KEY]";
+    printf "\n\n  Options:";
+    printf "\n    -h,  --help              Print this";
+    printf "\n    -n,  --name              Name of admin user";
+    printf "\n    -P,  --path              Directory to clone Magento Cloud";
+    printf "\n    -V,  --magento-version   Magento Cloud version";
+    printf "\n    -H,  --host              Domain to access Magento Cloud";
+    printf "\n    -u,  --admin-user        Username to access admin area";
+    printf "\n    -p,  --admin-password    Password to access admin area";
+    printf "\n    -b,  --public-key        Public key to access Magento Cloud";
+    printf "\n    -i,  --private-key       Private key to access Magento Cloud";
+    printf "\n    -v,  --version           Print version";
+    printf "\n    -vv, --version-small     Print only number of version";
+}
+
+EXECUTE_INSIDE_CONTAINER() {
+    # We're using this function to remove the requirements of having PHP and Composer locally. So this will execute inside a container with PHP
+    curl -s https://gist.githubusercontent.com/LucasCalazans/dd85d49d5bbb4538f134e8e730af8245/raw/66af88d3a95980fce8c7a0716413a5b568661968/exec.sh | bash -s $*;
+}
+
+
+#####################################################
+#                                                   #
+#               PREPARING ARGUMENTS                 #
+#                                                   #
+#####################################################
+
+for ARGUMENT in "$@"
+do
+  KEY=$(echo $ARGUMENT | cut -f1 -d=)
+  VALUE=$(echo $ARGUMENT | cut -f2 -d=)
+
+  case "$KEY" in
+    -n|--name)               PROJECT_NAME=${VALUE} ;;
+    -P|--path)               PROJECT_PATH=${VALUE} ;;
+    -V|--magento-version)    MAGENTO_VERSION=${VALUE} ;;
+    -H|--host)               PROJECT_HOST=${VALUE} ;;
+    -u|--admin-user)         ADMIN_USER=${VALUE} ;;
+    -p|--admin-password)     ADMIN_PASSWORD=${VALUE} ;;
+    -b|--public-key)         MAGENTO_PUBLIC_KEY=${VALUE} ;;
+    -i|--private-key)        MAGENTO_PRIVATE_KEY=${VALUE} ;;
+    -v|--version)            printf "Magento Create Project \nVersion: $VERSION"; exit ;;
+    -h|--help)               show_help; exit ;;
+    -vv|--version-small)     printf $VERSION; exit ;;
+    *) # param not used
+  esac
+done
