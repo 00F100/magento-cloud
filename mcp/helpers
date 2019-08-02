@@ -15,6 +15,11 @@ q() {
     echo $ANSWER;
 }
 
+#####################################################
+#                                                   #
+#                     HELP SHOW                     #
+#                                                   #
+#####################################################
 show_help() {
     printf "\n  Usage:";
     printf "\n    magento-create-project [--name NAME] [--path PATH] [--magento-version VERSION] [--host HOST] [--admin-user USER] [--admin-password PASSWORD] [--public-key KEY] [--private-key KEY]";
@@ -32,8 +37,13 @@ show_help() {
     printf "\n    -vv, --version-small     Print only number of version";
 }
 
+#####################################################
+#                                                   #
+#         DOCKER CONTAINER WITH COMPOSER            #
+#                                                   #
+#####################################################
+
 EXECUTE_INSIDE_CONTAINER() {
-    # We're using this function to remove the requirements of having PHP and Composer locally. So this will execute inside a container with PHP
     curl -s https://gist.githubusercontent.com/LucasCalazans/dd85d49d5bbb4538f134e8e730af8245/raw/66af88d3a95980fce8c7a0716413a5b568661968/exec.sh | bash -s $*;
 }
 

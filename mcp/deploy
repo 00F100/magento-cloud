@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+
+#####################################################
+#                                                   #
+#                  STARTING PROJECT                 #
+#                                                   #
+#####################################################
+
+docker-sync start;
+
+docker-compose up -d;
+
+docker-compose run deploy cloud-deploy;
+
+docker-compose run deploy magento-command deploy:mode:set developer;
+
+docker-compose run deploy magento-command cache:clean;
+
+#####################################################
+#                                                   #
+#                      FINISHED                     #
+#                                                   #
+#####################################################
+
+echo "";
+echo "==========================================";
+echo "";
+echo "The project \"${PROJECT_NAME}\" has been successfully configured!";
+echo "";
+echo "Storefront: https://${PROJECT_HOST}";
+echo "Admin:      https://${PROJECT_HOST}/admin";
+echo "";
+echo "Admin Username: ${ADMIN_USER}";
+echo "";
+echo "==========================================";
+echo "";

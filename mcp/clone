@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+#####################################################
+#                                                   #
+#                   CLONING CLOUD                   #
+#                                                   #
+#####################################################
+git clone git@github.com:magento/magento-cloud.git ${PROJECT_PATH};
+cd ${PROJECT_PATH};
+git checkout ${MAGENTO_VERSION};

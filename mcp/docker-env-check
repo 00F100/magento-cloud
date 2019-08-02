@@ -16,7 +16,7 @@ ERROR_CHECK=0
 if [[ "$MAX_MAP_COUNT_VALUE" -lt "$MAX_MAP_COUNT_LIMIT" ]]; then
    printf "\n${RED}[ERROR]${NC} vm.max_map_count ";
    printf "\n${UNI}Should be at least ${BI}${MAX_MAP_COUNT_LIMIT}${BE}${UNE}.\n${UNI}Execute the following command (Linux users):${UNE}";
-   printf "\n\n sysctl -w vm.max_map_count=262144 \n"
+   printf "\n\n sudo sysctl -w vm.max_map_count=262144 \n"
    ERROR_CHECK=1
 fi
 

@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+
+#####################################################
+#                                                   #
+#                  PROJECT CONFIGS                  #
+#                                                   #
+#####################################################
+
+[[ -z "$PROJECT_NAME" ]] && PROJECT_NAME=$(q "Project name?" "magento2");
+[[ -z "$PROJECT_PATH" ]] && PROJECT_PATH=$(q "Where do you want to use the project?" "./${PROJECT_NAME}");
+[[ -z "$MAGENTO_VERSION" ]] && MAGENTO_VERSION=$(q "Magento Version?" "2.3.2");
+[[ -z "$PROJECT_HOST" ]] && PROJECT_HOST=$(q "Project host?" "${PROJECT_NAME}.localhost");
+[[ -z "$ADMIN_USER" ]] && ADMIN_USER=$(q "Admin User?" "admin");
+[[ -z "$ADMIN_PASSWORD" ]] && ADMIN_PASSWORD=$(q "Admin Password?" "123123q");
+
+#####################################################
+#                                                   #
+#                    MAGENTO KEYS                   #
+#                                                   #
+#####################################################
+
+[[ -z "$MAGENTO_PUBLIC_KEY" ]] && MAGENTO_PUBLIC_KEY=$(q "Magento public key" "");
+[[ -z "$MAGENTO_PUBLIC_KEY" ]] && echo "ERROR: We need a Magento public key" && exit;
+
+[[ -z "$MAGENTO_PRIVATE_KEY" ]] && read -sp "Magento private key: " MAGENTO_PRIVATE_KEY && echo "";
+[[ -z "$MAGENTO_PRIVATE_KEY" ]] && echo "ERROR: We need a Magento private key" && exit;
+
+#####################################################
+#                                                   #
+#               GENERATING auth.json                #
+#                                                   #
+#####################################################
+echo "{
+    \"http-basic\": {
+         \"repo.magento.com\": {
+            \"username\": \"${MAGENTO_PUBLIC_KEY}\",
+            \"password\": \"${MAGENTO_PRIVATE_KEY}\"
+        }
+    }
+}" > auth.json;

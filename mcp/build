@@ -1,0 +1,61 @@
+#!/usr/bin/env bash
+
+#####################################################
+#                                                   #
+#                     DEPLOYING                     #
+#                                                   #
+#####################################################
+
+EXECUTE_INSIDE_CONTAINER composer install;
+
+cp package.json.sample package.json;
+cp Gruntfile.js.sample Gruntfile.js;
+
+EXECUTE_INSIDE_CONTAINER ./vendor/bin/ece-tools docker:build --mode="developer" --es 6.5 --php 7.2;
+
+cp .docker/config.php.dist .docker/config.php;
+
+sed -i -E "s/magento2.docker/${PROJECT_HOST}/" .docker/config.php docker-compose.yml;
+sed -i -E "s/(.*ADMIN_URL' => ')admin(')/\1${ADMIN_USER}\2/" .docker/config.php;
+sed -i -E "s/(.*ADMIN_PASSWORD' => ')123123q(',)/\1${ADMIN_PASSWORD}\2/" .docker/config.php;
+
+EXECUTE_INSIDE_CONTAINER ./vendor/bin/ece-tools docker:config:convert;
+
+SYNC_NAME="${PROJECT_NAME}-sync"
+sed -i -E "s/(.*)magento-sync(.*)/\1${SYNC_NAME}\2/" ./docker-compose.yml ./docker-sync.yml ./vendor/magento/ece-tools/src/Docker/Compose/DeveloperCompose.php
+
+#####################################################
+#                                                   #
+#               CHANGING PHP CONTAINER              #
+#                                                   #
+#####################################################
+
+mkdir -p .docker/php;
+touch ./.docker/php/Dockerfile;
+echo "FROM magento/magento-cloud-docker-php:7.2-fpm
+RUN apt-get update && \
+    apt-get upgrade -y && \
+    curl -sL https://deb.nodesource.com/setup_12.x | bash - && \
+    apt-get install -y nodejs && \
+    apt-get clean -y && \
+    apt-get autoclean -y && \
+    apt-get autoremove -y && \
+    apt-get purge -y --auto-remove && \
+    npm install -g grunt-cli
+" > ./.docker/php/Dockerfile
+
+sed -i -E "s/image: 'magento\/magento-cloud-docker-php:7.2-fpm'/\build: '\.\/\.docker\/php'/" docker-compose.yml
+
+#####################################################
+#                                                   #
+#                    ADDING KIBANA                  #
+#                                                   #
+#####################################################
+
+KIBANA_CONFIG="\n    ports:\n      - '9200:9200'\n  kibana:\n    image: docker.elastic.co\/kibana\/kibana:6.5.0\n    volumes:\n      - .\/kibana.yml:\/usr\/share\/kibana\/config\/kibana.yml\n    ports:\n      - '5601:5601'\n    depends_on:\n      - elasticsearch"
+sed -i -E "s/(.*magento-cloud-docker-elasticsearch.*)/\1${KIBANA_CONFIG}/" docker-compose.yml
+
+echo "server.port: 5601
+server.host: \"0\"
+elasticsearch.url: \"http://elasticsearch:9200\"
+" > kibana.yml;
