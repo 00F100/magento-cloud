@@ -2,6 +2,10 @@
 
 Bash executable to prepare Magento Cloud localhost with Docker
 
+This script was originally produced by [@LucasCalazans](https://github.com/LucasCalazans)
+
+My sincere thanks
+
 ### Install
 
 ```
