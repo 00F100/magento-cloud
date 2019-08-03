@@ -33,6 +33,7 @@ show_help() {
     printf "\n    -p,  --admin-password    Password to access admin area";
     printf "\n    -b,  --public-key        Public key to access Magento Cloud";
     printf "\n    -i,  --private-key       Private key to access Magento Cloud";
+    printf "\n    -B,  --base-dir          Base dir content directory mcp";
     printf "\n    -v,  --version           Print version";
     printf "\n    -vv, --version-small     Print only number of version\n\n";
 }

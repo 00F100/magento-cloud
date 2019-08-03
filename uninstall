@@ -1,7 +1,19 @@
 #!/usr/bin/env bash
 
-SAVE_DIR="/usr/local/bin"
-BIN_DIR="/usr/local/bin"
+SAVEDIR="/usr/local/bin/"
+BASEDIR="/usr/local/bin/"
 
-rm "$SAVE_DIR/magento-create-project";
-rm -R "$BIN_DIR/mcp";
+for ARGUMENT in "$@"
+do
+  KEY=$(echo $ARGUMENT | cut -f1 -d=)
+  VALUE=$(echo $ARGUMENT | cut -f2 -d=)
+
+  case "$KEY" in
+    -B|--base-dir)      BASEDIR=${VALUE} ;;
+    -s|--save-dir)      SAVEDIR=${VALUE} ;;
+    *)
+  esac
+done
+
+rm "${SAVEDIR}magento-create-project";
+rm -R "${BASEDIR}mcp";

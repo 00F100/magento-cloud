@@ -1,46 +1,58 @@
 #!/usr/bin/env bash
 
-VERSION="1.0.0"
+VERSION="1.1.0";
+BASEDIR="/usr/local/bin/";
+
+for ARGUMENT in "$@"
+do
+  KEY=$(echo $ARGUMENT | cut -f1 -d=)
+  VALUE=$(echo $ARGUMENT | cut -f2 -d=)
+
+  case "$KEY" in
+    -B|--base-dir)      BASEDIR=${VALUE} ;;
+    *)
+  esac
+done
 
 #####################################################
 #                                                   #
 #                      HELPERS                      #
 #                                                   #
 #####################################################
-source /usr/local/bin/mcp/format
-source /usr/local/bin/mcp/helpers
+source "${BASEDIR}mcp/format";
+source "${BASEDIR}mcp/helpers";
 
 #####################################################
 #                                                   #
 #                 SYSTEM VALIDATION                 #
 #                                                   #
 #####################################################
-source /usr/local/bin/mcp/docker-env-check;
+source "${BASEDIR}mcp/docker-env-check";
 
 #####################################################
 #                                                   #
 #                  INPUTS CONFIGS                   #
 #                                                   #
 #####################################################
-source /usr/local/bin/mcp/inputs
+source "${BASEDIR}mcp/inputs";
 
 #####################################################
 #                                                   #
 #                   CLONING CLOUD                   #
 #                                                   #
 #####################################################
-source /usr/local/bin/mcp/clone
+source "${BASEDIR}mcp/clone";
 
 #####################################################
 #                                                   #
 #                     BUILDING                      #
 #                                                   #
 #####################################################
-source /usr/local/bin/mcp/build
+source "${BASEDIR}mcp/build";
 
 #####################################################
 #                                                   #
 #                     DEPLOYING                     #
 #                                                   #
 #####################################################
-source /usr/local/bin/mcp/deploy
+source "${BASEDIR}mcp/deploy";
